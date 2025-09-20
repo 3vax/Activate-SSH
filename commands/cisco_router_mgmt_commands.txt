@@ -1,16 +1,14 @@
 enable
 conf t
-enable secret {device_password}
 hostname {hostname}
-int vlan {mgmt_vlan}
-ip address {mgmt_ipaddress} {mgmt_subnetmask}
+enable secret {device_password}
+int {mgmt_interface_port}
 no shut
 exit
-int {mgmt_interface_port}
-switchport mode trunk
-switchport trunk allow vlan {mgmt_vlan}
+int {mgmt_sub_interface_port}
+encapsulation dot1Q {mgmt_vlan}
+ip address {mgmt_ipaddress} {mgmt_subnetmask}
 exit
-ip default-gateway {default_gateway}
 ip domain-name {domain_name}
 username {username} password {password}
 crypto key generate rsa modulus {key_size}

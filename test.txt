@@ -1,0 +1,50 @@
+enable
+conf t
+enable secret cisco
+hostname R1
+int g0/0/0
+no shut
+exit
+int g0/0/0.99
+encapsulation dot1Q 99
+ip address 192.168.99.1 255.255.255.0
+exit
+ip domain-name fsi.local
+username cisco password cisco
+crypto key generate rsa
+2048
+ip ssh version 2
+line vty 0 15
+login local
+transport input ssh
+end
+
+
+
+
+
+crypto key generate rsa modulus 1024
+
+
+enable
+conf t
+enable secret cisco
+hostname S1
+int vlan 99
+ip address 192.168.99.2 255.255.255.0
+no shut
+exit
+int g0/1
+switchport mode trunk
+switchport trunk allow vlan 99
+exit
+ip default-gateway 192.168.99.1
+ip domain-name fsi.local
+username cisco password cisco
+crypto key generate rsa
+2048
+ip ssh version 2
+line vty 0 15
+login local
+transport input ssh
+end

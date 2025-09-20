@@ -1,4 +1,4 @@
-from scripts.cisco_switch_settings import cisco_switch_settings
+from scripts.cisco_settings import cisco_settings
 import tools.list_ports
 import scripts
 import time
@@ -20,10 +20,10 @@ Enter the number of what you would like to do:''')
 
 
     elif switch_or_router == "2":
-        cisco_switch_settings()
+        cisco_settings("switch")
 
     elif switch_or_router == "3":
-        pass
+        cisco_settings("router")
 
     else:
         run = False
