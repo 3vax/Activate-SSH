@@ -1,0 +1,21 @@
+enable
+conf t
+enable secret {device_password}
+hostname {hostname}
+int vlan {mgmt_vlan}
+ip address {mgmt_ipaddress} {mgmt_subnetmask}
+no shut
+exit
+int {mgmt_interface_port}
+switchport mode access
+switchport access vlan {mgmt_vlan}
+exit
+ip default-gateway {default_gateway}
+ip domain-name {domain_name}
+username {username} password {password}
+crypto key generate rsa modulus {key_size}
+ip ssh version {ssh_version}
+line vty 0 15
+login local
+transport input ssh
+end
