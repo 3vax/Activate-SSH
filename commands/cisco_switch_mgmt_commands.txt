@@ -1,14 +1,14 @@
 enable
 conf t
-enable secret {device_password}
 hostname {hostname}
-int vlan {mgmt_vlan}
+enable secret {device_password}
+int vlan {mgmt_svi}
 ip address {mgmt_ipaddress} {mgmt_subnetmask}
 no shut
 exit
 int {mgmt_interface_port}
 switchport mode trunk
-switchport trunk allow vlan {mgmt_vlan}
+switchport trunk allow vlan {mgmt_svi}
 exit
 ip default-gateway {default_gateway}
 ip domain-name {domain_name}
