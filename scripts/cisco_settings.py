@@ -50,6 +50,9 @@ def cisco_settings(device_type):
             # pause for 10 seconds to give the device time to generate the key.
             # This will be a visual for the user in a progress bar.
             if "crypto key generate rsa" in command.strip():
+                ser.write(formatted_command.encode())
+                print(ser.read(ser.in_waiting or 1).decode())
+                time.sleep(1.5) # wait for the device to respond
                 for i in tqdm(range(20), desc="Waiting for key generation"):
                     time.sleep(0.5)
             else:
@@ -81,6 +84,7 @@ def cisco_settings_test(device_type):
             print(formatted_command.encode())
             
             if "crypto key generate rsa" in command.strip():
+                print(formatted_command.encode())
                 for i in tqdm(range(20), desc="Waiting for key generation"):
                     time.sleep(0.5)
             else:
