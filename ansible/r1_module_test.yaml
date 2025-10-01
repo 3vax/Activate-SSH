@@ -1,0 +1,61 @@
+- name: Configure Router with hostname R1
+  hosts: R1
+  become: yes
+
+  tasks:
+
+    - name: Configure interfaces and subinterfaces with an IP
+      cisco.ios.ios_l3_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0.99
+            ipv4:
+              - address: 10.99.0.2/24
+
+          - name: GigabitEthernet0/0/1.99
+            ipv4:
+              - address: 10.99.1.2/24
+
+          - name: GigabitEthernet0/0/1.10
+            ipv4:
+              - address: 10.10.0.2/24
+
+          - name: GigabitEthernet0/0/1.20
+            ipv4:
+              - address: 10.20.0.3/24
+
+    - name: Configure HSRP on multiple interfaces
+      cisco.ios.ios_hsrp_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0.99
+            # Først må interface være i layer3 og trunk/encapsulation på subinterface
+            # Denne modulen konfigurerer *bare* HSRP-delen, ikke VLAN/subinterface eller IP-adresse
+            standby_groups:
+              - group_no: 99
+                ip:
+                  - virtual_ip: 10.99.0.1
+                priority: 110
+                preempt:
+                  enabled: true
+          - name: GigabitEthernet0/0/1.99
+            standby_groups:
+              - group_no: 99
+                ip:
+                  - virtual_ip: 10.99.1.1
+                priority: 110
+                preempt:
+                  enabled: true
+          - name: GigabitEthernet0/0/1.10
+            standby_groups:
+              - group_no: 10
+                ip:
+                  - virtual_ip: 10.10.0.1
+                priority: 110
+                preempt:
+                  enabled: true
+          - name: GigabitEthernet0/0/1.20
+            standby_groups:
+              - group_no: 20
+                ip:
+                  - virtual_ip: 10.20.0.1
+                # ingen preempt og ingen priority satt — bruker standardverdi
+        state: merged

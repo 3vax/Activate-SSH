@@ -1,0 +1,40 @@
+---
+- name: Configure switch with hostname ALS1
+  hosts: ALS1
+  become: yes
+
+  tasks:
+
+    - name: Create VLAN10
+      cisco.ios.ios_config:
+        lines:
+          - name VLAN10
+        parents: vlan 10
+
+    - name: Create VLAN20
+      cisco.ios.ios_config:
+        lines:
+          - name VLAN20
+        parents: vlan 20
+
+    - name: Create VLAN99
+      cisco.ios.ios_config:
+        lines:
+          - name VLAN99
+        parents: vlan 99
+
+    - name: Turn on access ports for VLAN10
+      cisco.ios.ios_config:
+        lines:
+          - no shutdown
+          - switchport mode access
+          - switchport access vlan 10
+        parents: int range g1/0/10-12
+    
+    - name: Turn on access ports for VLAN20
+      cisco.ios.ios_config:
+        lines:
+          - no shutdown
+          - switchport mode access
+          - switchport access vlan 20
+        parents: int range g1/0/13-15

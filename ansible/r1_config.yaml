@@ -1,0 +1,68 @@
+---
+- name: Configure router with hostname R1
+  hosts: R1
+  become: yes
+
+  tasks:
+
+    - name: Configure MGMT interface GigabitEthernet0/0.99 with IP address and HSRP
+      cisco.ios.ios_config:
+        lines:
+          - encapsulation dot1Q 99
+          - ip address 10.99.0.2 255.255.255.0
+          - standby version 2
+          - standby 99 ip 10.99.0.1
+          - standby 99 priority 110
+          - standby 99 preempt
+        parents: int g0/0.99
+
+    - name: Configure MGMT interface GigabitEthernet0/1.99 with IP address and HSRP
+      cisco.ios.ios_config:
+        lines:
+          - encapsulation dot1Q 99
+          - ip address 10.99.1.2 255.255.255.0
+          - standby version 2
+          - standby 99 ip 10.99.1.1
+          - standby 99 priority 110
+          - standby 99 preempt
+        parents: int g0/1.99
+
+    - name: Configure VLAN10 on interface GigabitEthernet0/1.10 with IP address and HSRP
+      cisco.ios.ios_config:
+        lines:
+          - encapsulation dot1Q 10
+          - ip address 10.10.0.2 255.255.255.0
+          - standby version 2
+          - standby 10 ip 10.10.0.1
+          - standby 10 priority 110
+          - standby 10 preempt
+        parents: int g0/1.10
+
+    - name: Configure VLAN20 on interface GigabitEthernet0/1.20 with IP address and HSRP
+      cisco.ios.ios_config:
+        lines:
+          - encapsulation dot1Q 20
+          - ip address 10.20.0.3 255.255.255.0
+          - standby version 2
+          - standby 20 ip 10.20.0.1
+        parents: int g0/1.20
+
+    - name: Configure OSPF routing
+      cisco.ios.ios_config:
+        lines:
+          - network 10.99.0.0 0.0.255.255 area 0
+          - network 10.10.0.0 0.0.0.255 area 0
+          - network 10.20.0.0 0.0.0.255 area 0
+        parents: router ospf 1
+    
+    - name: Configure DHCP pool for VLAN10
+      cisco.ios.ios_config:
+        lines:
+          - network 10.10.0.0 255.255.255.0
+          - default-router 10.10.0.1
+        parents: ip dhcp pool VLAN10
+
+    - name: Configure excluded addresses for VLAN10
+      cisco.ios.ios_config:
+        lines:
+          - ip dhcp excluded-address 10.10.0.1 10.10.0.10
