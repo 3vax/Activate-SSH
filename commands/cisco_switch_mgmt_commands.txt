@@ -2,6 +2,9 @@ enable
 conf t
 hostname {hostname}
 enable secret {device_password}
+vlan {mgmt_svi}
+name MGMT
+exit
 int vlan {mgmt_svi}
 ip address {mgmt_ipaddress} {mgmt_subnetmask}
 no shut
@@ -13,6 +16,7 @@ exit
 int {mgmt_access_interface_port}
 switchport mode access
 switchport access vlan {mgmt_svi}
+exit
 ip default-gateway {default_gateway}
 ip domain-name {domain_name}
 username {username} password {password}

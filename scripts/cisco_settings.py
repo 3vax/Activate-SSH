@@ -51,12 +51,13 @@ def cisco_settings(device_type):
             # This will be a visual for the user in a progress bar.
             if "crypto key generate rsa" in command.strip():
                 time.sleep(1) # wait for the device to respond
-                for i in tqdm(range(20), desc="Waiting for key generation"):
-                    time.sleep(0.5)
+                print(ser.read(ser.in_waiting or 1).decode())
+                for i in tqdm(range(40), desc="Waiting for key generation"):
+                    time.sleep(0.25)
                 print(ser.read(ser.in_waiting or 1).decode())
             else:
                 time.sleep(1.5)
-            print(ser.read(ser.in_waiting or 1).decode()) # read all characters in buffer
+                print(ser.read(ser.in_waiting or 1).decode()) # read all characters in buffer
     ser.close() # close port
 
 

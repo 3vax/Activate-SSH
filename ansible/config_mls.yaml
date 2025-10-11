@@ -1,0 +1,13 @@
+---
+- name: Configure Layer 3 switch with hostname mls
+  hosts: MLS
+  become: true
+
+  tasks:
+
+    - name: Configure MGMT interface GigabitEthernet1/0/2 as trunk
+      cisco.ios.ios_config:
+        lines:
+          - switchport mode trunk
+          - switchport trunk allowed vlan 99
+        parents: int g1/0/2

@@ -16,8 +16,8 @@ What would you like to do?
 [1] Check what COM ports are available.
 [2] Switch
 [3] Router
-Or press enter to quit...
-Enter the number of what you would like to do:''')
+Enter the number of what you would like to do
+or press any key to exit...:''')
     switch_or_router = input()
 
     if switch_or_router == "1":
