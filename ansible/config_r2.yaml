@@ -12,7 +12,13 @@
           - ip address 10.99.0.3 255.255.255.0
           - standby version 2
           - standby 99 ip 10.99.0.1
-        parents: int g0/1.99
+        parents: int g0/0.99
+
+    - name: Configure MGMT interface GigabitEthernet0/1 to turn on
+      cisco.ios.ios_config:
+        lines:
+          - no shutdown
+        parents: int g0/1
 
     - name: Configure MGMT interface GigabitEthernet0/1.99 with IP address and HSRP
       cisco.ios.ios_config:
@@ -21,13 +27,13 @@
           - ip address 10.99.1.3 255.255.255.0
           - standby version 2
           - standby 99 ip 10.99.1.1
-        parents: int g0/0.99
+        parents: int g0/1.99
 
     - name: Configure VLAN10 on interface GigabitEthernet0/1.10 with IP address and HSRP
       cisco.ios.ios_config:
         lines:
           - encapsulation dot1Q 10
-          - ip address 10.10.0.2 255.255.255.0
+          - ip address 10.10.0.3 255.255.255.0
           - standby version 2
           - standby 10 ip 10.10.0.1
         parents: int g0/1.10
@@ -51,14 +57,14 @@
           - network 10.20.0.0 0.0.0.255 area 0
         parents: router ospf 1
 
+    - name: Configure excluded addresses for VLAN20
+      cisco.ios.ios_config:
+        lines:
+          - ip dhcp excluded-address 10.20.0.1 10.20.0.10
+
     - name: Configure DHCP pool for VLAN20
       cisco.ios.ios_config:
         lines:
           - network 10.20.0.0 255.255.255.0
           - default-router 10.20.0.1
-        parents: ip dhcp pool VLAN20
-
-    - name: Configure excluded addresses for VLAN20
-      cisco.ios.ios_config:
-        lines:
-          - ip dhcp excluded-address 10.20.0.1 10.20.0.10
+        parents: ip dhcp pool VLAN 20

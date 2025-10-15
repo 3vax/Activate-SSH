@@ -1,20 +1,20 @@
 ---
-- name: Configure switch with hostname S1
-  hosts: S1
-  become: yes
+- name: Configure switch with hostname S2
+  hosts: S2
+  become: true
 
   tasks:
 
-    - name: Create VLAN10
+    - name: Create STUD1(VLAN10)
       cisco.ios.ios_config:
         lines:
-          - name VLAN10
+          - name STUD1
         parents: vlan 10
 
-    - name: Create VLAN20
+    - name: Create STUD2(VLAN20)
       cisco.ios.ios_config:
         lines:
-          - name VLAN20
+          - name STUD2
         parents: vlan 20
 
     - name: Create VLAN99
@@ -28,25 +28,11 @@
         lines:
           - no shutdown
         parents: int g1/0/1
-    
+
     - name: Turn on MGMT port GigabitEthernet1/0/2
       cisco.ios.ios_config:
         lines:
           - no shutdown
-        parents: int g1/0/2
-
-    - name: Configure MGMT interface GigabitEthernet1/0/1.99 with IP address and HSRP
-      cisco.ios.ios_config:
-        lines:
-          - switchport mode trunk
-          - switchport trunk allowed vlan 10,20,99
-        parents: int g1/0/1
-
-    - name: Configure MGMT interface GigabitEthernet1/0/1.99 with IP address and HSRP
-      cisco.ios.ios_config:
-        lines:
-          - switchport mode trunk
-          - switchport trunk allowed vlan 10,20,99
         parents: int g1/0/2
 
     - name: Configure port-channel 1

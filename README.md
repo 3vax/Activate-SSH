@@ -53,16 +53,16 @@ python main.py
 ## Project Structure
 ```
 Activate-SSH/
-├── main.py                          # Main entry point with menu system
+├── main.py                          # Main entry point with menu 
 ├── scripts/
 │   ├── cisco_settings.py            # Core configuration logic
-│   ├── config.py                    # User input prompts and defaults
-│   └── hard_coded_sw_settings.py    # Alternative hardcoded settings for testing
+│   ├── config.py                    # User input prompts and 
+│   └── hard_coded_sw_settings.py    # Alternative hardcoded 
 ├── commands/
-│   ├── cisco_switch_mgmt_commands.txt    # Switch configuration template
-│   └── cisco_router_mgmt_commands.txt    # Router configuration template
+│   ├── cisco_switch_mgmt_commands.txt    # Switch configuration 
+│   └── cisco_router_mgmt_commands.txt    # Router configuration 
 ├── tools/
-│   └── list_ports.py                # Serial port enumeration utility
+│   └── list_ports.py                # Serial port enumeration 
 └── README.md                        # This file
 ```
 
