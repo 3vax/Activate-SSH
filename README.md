@@ -58,17 +58,23 @@ python main.py
 ## Project Structure
 ```
 Activate-SSH/
-├── main.py                          # Main entry point with menu 
+├── ansible/
+│   ├── config_als1.yaml   # Ansible playbook for Access Layer Switch 1
+│   ├── config_mls.yaml    # Ansible playbook for the Multilayer Switch
+│   ├── config_r1.yaml     # Ansible playbook for Router 1
+│   ├── config_r2.yaml     # Ansible playbook for Router 2
+│   ├── config_s1.yaml     # Ansible playbook for Switch 1
+│   ├── config_s2.yaml     # Ansible playbook for Switch 2
+│   └── hosts              # Ansible inventory file containing device IPs and groups
 ├── scripts/
-│   ├── cisco_settings.py            # Core configuration logic
-│   ├── config.py                    # User input prompts and 
-│   └── hard_coded_sw_settings.py    #  
+│   ├── cisco_settings.py  # Core logic for configuring Cisco devices via serial
+│   ├── config.py          # Handles user input and dynamic configuration values
+│   └── hard_coded_sw_settings.py  # Early static test version of switch configuration
 ├── commands/
-│   ├── cisco_switch_mgmt_commands.txt    # Switch configuration 
-│   └── cisco_router_mgmt_commands.txt    # Router configuration 
-├── tools/
-│   └── list_ports.py                # Serial port enumeration 
-└── README.md                        # This file
+│   ├── cisco_switch_mgmt_commands.txt  # Template with switch configuration commands
+│   └── cisco_router_mgmt_commands.txt  # Template with router configuration commands
+└── tools/
+    └── list_ports.py      # Utility for listing and selecting available serial ports
 ```
 
 ## Disclaimer
@@ -91,7 +97,7 @@ enhets typen.
 - **Serial Port Håndtering**: Inkluderer et verktøy for at brukeren skal kunne velge riktig serial port
 - **Mal-Basert Konfigurasjon**: Enkelt og modifisere og legge til nye kommando maler
 - **Fremdriftsindikator**: Viser en fremdriftsindikator under nøkkel generasjonen
-- **A
+- **Ansible playbooks**: Ansible playbooks for et spesifikt oppsett
 
 ## Quick Start
 
@@ -386,6 +392,7 @@ Activate-SSH/
 ├── tools/
 │   └── list_ports.py                # Serial port enumeration 
 └── README.md                        # Denne filen
+```
 
 ## Ansvarsfraskrivelse
 
